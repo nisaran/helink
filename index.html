@@ -133,6 +133,7 @@
       display: flex;
       justify-content: center;
       margin: 15px 0 25px;
+      min-height: 90px;
     }
 
     .section {
@@ -159,7 +160,14 @@
       margin: 0 10px;
     }
 
+    /* AD RESPONSIVENESS */
+    .ad-desktop { display: block; }
+    .ad-mobile  { display: none; }
+
     @media (max-width: 600px) {
+      .ad-desktop { display: none; }
+      .ad-mobile  { display: block; }
+
       .shortener-box {
         flex-direction: column;
         box-shadow: none;
@@ -180,24 +188,6 @@
 
       .shortener-box button {
         padding: 15px;
-      }
-    }
-
-    .ad-desktop {
-      display: inline-block;
-    }
-
-    .ad-mobile {
-      display: none;
-    }
-
-    @media (max-width: 600px) {
-      .ad-desktop {
-        display: none;
-      }
-
-      .ad-mobile {
-        display: inline-block;
       }
     }
   </style>
@@ -226,7 +216,23 @@
     <div class="result-container" id="resultContainer"></div>
   </section>
 
-  <div class="ad-wrapper" id="ad-container"></div>
+  <div class="ad-wrapper">
+    <div class="ad-desktop">
+      <ins class="adsbygoogle"
+           style="display:inline-block;width:728px;height:90px"
+           data-ad-client="ca-pub-8415646781751848"
+           data-ad-slot="7010928349"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+
+    <div class="ad-mobile">
+      <ins class="adsbygoogle"
+           style="display:inline-block;width:300px;height:250px"
+           data-ad-client="ca-pub-8415646781751848"
+           data-ad-slot="9792772848"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+  </div>
 
 
   <section class="section">
@@ -317,35 +323,6 @@
       shortenBtn.innerText = "Shorten";
     }
   });
-
-  /* REQUIRED: one push per ad */
-  (adsbygoogle = window.adsbygoogle || []).push({});
-  (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-
-  <script>
-  const adContainer = document.getElementById("ad-container");
-  const isMobile = window.innerWidth <= 600;
-
-  if (isMobile) {
-    // 📱 MOBILE 300x250
-    adContainer.innerHTML = `
-      <ins class="adsbygoogle"
-           style="display:inline-block;width:300px;height:250px"
-           data-ad-client="ca-pub-8415646781751848"
-           data-ad-slot="9792772848"></ins>
-    `;
-  } else {
-    // 🖥 DESKTOP 728x90
-    adContainer.innerHTML = `
-      <ins class="adsbygoogle"
-           style="display:inline-block;width:728px;height:90px"
-           data-ad-client="ca-pub-8415646781751848"
-           data-ad-slot="7010928349"></ins>
-    `;
-  }
-
-  (adsbygoogle = window.adsbygoogle || []).push({});
 </script>
 
 </body>

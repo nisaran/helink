@@ -6,7 +6,7 @@
   <title>Helink – URL Shortner</title>
   <meta name="description" content="Helink is a fast and simple URL shortener to create short links instantly." />
 
-  <!-- AdSense Global Script (load once) -->
+  <!-- AdSense Global Script -->
   <script async
     src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8415646781751848"
     crossorigin="anonymous"></script>
@@ -18,20 +18,21 @@
       background: #ffffff;
       color: #222;
     }
+
     .container {
       max-width: 900px;
       margin: auto;
       padding: 20px;
     }
 
-    /* Header */
+    /* Sticky Header */
     header {
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  border-bottom: 1px solid #eee;
-  background: #ffffff;
-}
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      border-bottom: 1px solid #eee;
+      background: #ffffff;
+    }
 
     .header-inner {
       max-width: 900px;
@@ -41,10 +42,11 @@
       align-items: center;
       gap: 12px;
     }
+
     .header-inner img {
       height: 40px;
-      width: auto;
     }
+
     .header-inner h1 {
       font-size: 20px;
       margin: 0;
@@ -55,56 +57,64 @@
     .hero {
       text-align: center;
       padding: 40px 20px;
+      margin-top: 70px;
     }
+
     .hero h2 {
       font-size: 28px;
       margin-bottom: 10px;
     }
+
     .hero p {
       color: #555;
       margin-bottom: 20px;
     }
+
     .shortener-box {
       display: flex;
       gap: 10px;
       flex-wrap: wrap;
       justify-content: center;
     }
+
     .shortener-box input {
       padding: 12px;
       width: 100%;
       max-width: 400px;
       font-size: 16px;
     }
+
     .shortener-box button {
       padding: 12px 20px;
       font-size: 16px;
       cursor: pointer;
     }
-    .result {
-      margin-top: 15px;
-      font-size: 14px;
-      color: #0066cc;
+
+    /* Ad Wrapper (collapsed by default) */
+    .ad-wrapper {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      overflow: hidden;
+      max-height: 0;
+      transition: max-height 0.35s ease;
     }
 
-    /* Ads */
-    .ad {
-  margin: 30px 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  overflow: hidden;
-}
+    .ad-wrapper.show {
+      max-height: 120px;
+    }
+
     /* Sections */
     .section {
       padding: 30px 0;
     }
+
     .how-it-works ul {
       list-style: none;
       padding: 0;
       text-align: center;
     }
+
     .how-it-works li {
       margin: 10px 0;
     }
@@ -115,6 +125,7 @@
       background: #fafafa;
       padding: 30px 20px;
     }
+
     .app-section a {
       display: inline-block;
       margin-top: 15px;
@@ -133,6 +144,7 @@
       padding: 20px 0;
       border-top: 1px solid #eee;
     }
+
     footer a {
       color: #666;
       text-decoration: none;
@@ -146,6 +158,9 @@
       .hero h2 {
         font-size: 24px;
       }
+      .ad-wrapper.show {
+        max-height: 100px;
+      }
     }
   </style>
 </head>
@@ -155,36 +170,30 @@
 <!-- Header -->
 <header>
   <div class="header-inner">
-    <img
-      src="https://static.wixstatic.com/media/35c132_a5155fcd98804a63b86551e131f2302a~mv2.png"
-      alt="Helink Logo"
-    />
+    <img src="https://static.wixstatic.com/media/35c132_a5155fcd98804a63b86551e131f2302a~mv2.png" alt="Helink Logo">
     <h1>Helink – URL Shortner</h1>
   </div>
 </header>
 
-<!-- Hero Section -->
+<!-- Hero -->
 <div class="container hero">
   <h2>Shorten your links instantly</h2>
   <p>Fast, simple, and free URL shortener by Helixcer.</p>
 
   <div class="shortener-box">
-    <input type="url" placeholder="Paste your long URL here" />
+    <input type="url" placeholder="Paste your long URL here">
     <button>Shorten</button>
   </div>
-
-  <div class="result"></div>
 </div>
 
-<!-- AdSense Top -->
-<div class="container ad">
-  <ins class="adsbygoogle"
-    style="display:inline-block;width:728px;height:90px"
-    data-ad-client="ca-pub-8415646781751848"
-    data-ad-slot="7010928349"></ins>
-  <script>
-    (adsbygoogle = window.adsbygoogle || []).push({});
-  </script>
+<!-- Ad Top -->
+<div class="container">
+  <div class="ad-wrapper" id="ad-top">
+    <ins class="adsbygoogle"
+      style="display:inline-block;width:728px;height:90px"
+      data-ad-client="ca-pub-8415646781751848"
+      data-ad-slot="7010928349"></ins>
+  </div>
 </div>
 
 <!-- How It Works -->
@@ -197,25 +206,24 @@
   </ul>
 </div>
 
-<!-- Android App Section -->
+<!-- App -->
 <div class="app-section">
   <h2>Get Helink Android App</h2>
   <p>Shorten links faster, save history, and start chats instantly.</p>
-  <a href="#" target="_blank">Download on Google Play</a>
+  <a href="#">Download on Google Play</a>
 </div>
 
-<!-- AdSense Middle -->
-<div class="container ad">
-  <ins class="adsbygoogle"
-    style="display:inline-block;width:728px;height:90px"
-    data-ad-client="ca-pub-8415646781751848"
-    data-ad-slot="7010928349"></ins>
-  <script>
-    (adsbygoogle = window.adsbygoogle || []).push({});
-  </script>
+<!-- Ad Middle -->
+<div class="container">
+  <div class="ad-wrapper" id="ad-middle">
+    <ins class="adsbygoogle"
+      style="display:inline-block;width:728px;height:90px"
+      data-ad-client="ca-pub-8415646781751848"
+      data-ad-slot="7010928349"></ins>
+  </div>
 </div>
 
-<!-- About Section -->
+<!-- About -->
 <div class="container section">
   <h2>About Helink</h2>
   <p>
@@ -224,15 +232,14 @@
   </p>
 </div>
 
-<!-- AdSense Bottom -->
-<div class="container ad">
-  <ins class="adsbygoogle"
-    style="display:inline-block;width:728px;height:90px"
-    data-ad-client="ca-pub-8415646781751848"
-    data-ad-slot="7010928349"></ins>
-  <script>
-    (adsbygoogle = window.adsbygoogle || []).push({});
-  </script>
+<!-- Ad Bottom -->
+<div class="container">
+  <div class="ad-wrapper" id="ad-bottom">
+    <ins class="adsbygoogle"
+      style="display:inline-block;width:728px;height:90px"
+      data-ad-client="ca-pub-8415646781751848"
+      data-ad-slot="7010928349"></ins>
+  </div>
 </div>
 
 <!-- Footer -->
@@ -241,6 +248,22 @@
   <a href="#">Privacy Policy</a> |
   <a href="#">Terms</a>
 </footer>
+
+<!-- AdSense Loader + Collapse Logic -->
+<script>
+  document.querySelectorAll('.adsbygoogle').forEach(ad => {
+    (adsbygoogle = window.adsbygoogle || []).push({});
+  });
+
+  setTimeout(() => {
+    document.querySelectorAll('.ad-wrapper').forEach(wrapper => {
+      const ins = wrapper.querySelector('ins');
+      if (ins && ins.offsetHeight > 0) {
+        wrapper.classList.add('show');
+      }
+    });
+  }, 1500);
+</script>
 
 </body>
 </html>

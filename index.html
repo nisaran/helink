@@ -193,6 +193,33 @@
         padding: 15px;
       }
     }
+
+    @media (max-width: 600px) {
+  .shortener-box input {
+    font-size: 18px;        /* ⬅️ increased text size */
+    padding: 16px;         /* better tap comfort */
+  }
+}
+
+   .ad-desktop {
+  display: inline-block;
+}
+
+.ad-mobile {
+  display: none;
+}
+
+@media (max-width: 600px) {
+  .ad-desktop {
+    display: none;
+  }
+
+  .ad-mobile {
+    display: inline-block;
+  }
+}
+ 
+
   </style>
 </head>
 
@@ -221,11 +248,19 @@
 
   <!-- 🔽 AD EXACTLY IN EMPTY AREA -->
   <div class="ad-wrapper">
-    <ins class="adsbygoogle"
-      style="display:inline-block;width:728px;height:90px"
-      data-ad-client="ca-pub-8415646781751848"
-      data-ad-slot="7010928349"></ins>
-  </div>
+  <!-- Desktop Ad -->
+  <ins class="adsbygoogle ad-desktop"
+       style="display:inline-block;width:728px;height:90px"
+       data-ad-client="ca-pub-8415646781751848"
+       data-ad-slot="7010928349"></ins>
+
+  <!-- Mobile Ad -->
+  <ins class="adsbygoogle ad-mobile"
+       style="display:inline-block;width:300px;height:250px"
+       data-ad-client="ca-pub-8415646781751848"
+       data-ad-slot="9792772848"></ins>
+</div>
+
 
   <section class="section">
     <h3 style="text-align:center">Simple 3-Step Process</h3>

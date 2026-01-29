@@ -242,21 +242,8 @@
 </footer>
 
 <script>
-  // --- CONFIGURATION ---
-  // IMPORTANT: Ensure your Apps Script is deployed to "Anyone"
-  const API_ENDPOINT = 'https://script.google.com/macros/s/AKfycbym_S-jxobmksB0I1E9coIpxiQr9JgckTlGQCrq_Vsfk0K-iozhCvM1o92X2uzI2qJZ/exec'; 
+  const API_ENDPOINT = 'https://script.google.com/macros/s/AKfycbym_S-jxobmksB0I1E9coIpxiQr9JgckTlGQCrq_Vsfk0K-iozhCvM1o92X2uzI2qJZ/exec';
 
-  const shortenBtn = document.getElementById('shortenBtn');
-  const urlInput = document.getElementById('urlInput');
-  const resultContainer = document.getElementById('resultContainer');
-
-  // Ad Initialization
-  (window.adsbygoogle = window.adsbygoogle || []).push({});
-  setTimeout(() => {
-    document.querySelectorAll('.ad-wrapper').forEach(el => el.classList.add('show'));
-  }, 2000);
-
-  // Core Functionality
   shortenBtn.addEventListener('click', async () => {
     const originalUrl = urlInput.value.trim();
 
@@ -265,56 +252,34 @@
       return;
     }
 
-    // Show Loading
     shortenBtn.disabled = true;
     shortenBtn.innerText = "Processing...";
-    resultContainer.innerHTML = `<p style="color: #666;">Creating your link...</p>`;
+    resultContainer.innerHTML = `<p style="color:#666;">Creating your link...</p>`;
 
     try {
       const response = await fetch(API_ENDPOINT, {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json'
-  },
-  body: JSON.stringify({ url: originalUrl })
-});
+        method: 'POST',
+        body: JSON.stringify({ url: originalUrl }) // 👈 NO headers
+      });
+
       const data = await response.json();
 
       if (data.shortUrl) {
         renderResult(data.shortUrl);
-        urlInput.value = ""; // Clear input on success
+        urlInput.value = "";
       } else {
-        throw new Error(data.error || "Failed to generate link.");
+        throw new Error(data.error || "Failed to generate link");
       }
-    } catch (error) {
-      console.error("Error:", error);
-      resultContainer.innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
+
+    } catch (err) {
+      console.error(err);
+      resultContainer.innerHTML = `<p style="color:red;">${err.message}</p>`;
     } finally {
       shortenBtn.disabled = false;
       shortenBtn.innerText = "Shorten";
     }
   });
-
-  function renderResult(url) {
-    resultContainer.innerHTML = `
-      <div class="result-card">
-        <a href="${url}" target="_blank" id="finalUrl" style="text-decoration: none; color: #007bff; font-weight: bold;">${url}</a>
-        <button class="copy-btn" onclick="copyToClipboard('${url}')">Copy</button>
-      </div>
-    `;
-  }
-
-  function copyToClipboard(text) {
-    navigator.clipboard.writeText(text).then(() => {
-      const btn = document.querySelector('.copy-btn');
-      btn.innerText = "Copied!";
-      btn.style.background = "#28a745";
-      setTimeout(() => {
-        btn.innerText = "Copy";
-        btn.style.background = "#007bff";
-      }, 2000);
-    });
-  }
 </script>
+
 </body>
 </html>

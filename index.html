@@ -263,8 +263,84 @@
 </footer>
 
 <script>
+  // ---- DOM references ----
+  const shortenBtn = document.getElementById("shortenBtn");
+  const urlInput = document.getElementById("urlInput");
+  const resultContainer = document.getElementById("resultContainer");
+
+  const API_ENDPOINT =
+    "https://script.google.com/macros/s/AKfycbym_S-jxobmksB0I1E9coIpxiQr9JgckTlGQCrq_Vsfk0K-iozhCvM1o92X2uzI2qJZ/exec";
+
+  // ---- Render result ----
+  function renderResult(url) {
+    resultContainer.innerHTML = `
+      <div class="result-card">
+        <a href="${url}" target="_blank"
+          style="text-decoration:none;color:#007bff;font-weight:bold;">
+          ${url}
+        </a>
+        <button class="copy-btn" onclick="copyToClipboard('${url}')">
+          Copy
+        </button>
+      </div>
+    `;
+  }
+
+  // ---- Copy ----
+  function copyToClipboard(text) {
+    navigator.clipboard.writeText(text).then(() => {
+      const btn = document.querySelector(".copy-btn");
+      btn.innerText = "Copied!";
+      btn.style.background = "#28a745";
+
+      setTimeout(() => {
+        btn.innerText = "Copy";
+        btn.style.background = "#007bff";
+      }, 2000);
+    });
+  }
+
+  // ---- Shorten button ----
+  shortenBtn.addEventListener("click", async () => {
+    const originalUrl = urlInput.value.trim();
+
+    if (!originalUrl) {
+      alert("Please enter a valid URL.");
+      return;
+    }
+
+    shortenBtn.disabled = true;
+    shortenBtn.innerText = "Processing...";
+    resultContainer.innerHTML =
+      `<p style="color:#666;">Creating your link...</p>`;
+
+    try {
+      const response = await fetch(API_ENDPOINT, {
+        method: "POST",
+        body: JSON.stringify({ url: originalUrl })
+      });
+
+      const data = await response.json();
+
+      if (data.shortUrl) {
+        renderResult(data.shortUrl);
+        urlInput.value = "";
+      } else {
+        throw new Error(data.error || "Failed to generate link");
+      }
+    } catch (err) {
+      resultContainer.innerHTML =
+        `<p style="color:red;">${err.message}</p>`;
+    } finally {
+      shortenBtn.disabled = false;
+      shortenBtn.innerText = "Shorten";
+    }
+  });
+
+  // ---- Load AdSense ----
   (adsbygoogle = window.adsbygoogle || []).push({});
 </script>
+
 
 </body>
 </html>

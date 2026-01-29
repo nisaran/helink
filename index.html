@@ -226,17 +226,8 @@
     <div class="result-container" id="resultContainer"></div>
   </section>
 
-  <div class="ad-wrapper">
-    <ins class="adsbygoogle ad-desktop"
-         style="display:inline-block;width:728px;height:90px"
-         data-ad-client="ca-pub-8415646781751848"
-         data-ad-slot="7010928349"></ins>
+  <div class="ad-wrapper" id="ad-container"></div>
 
-    <ins class="adsbygoogle ad-mobile"
-         style="display:inline-block;width:300px;height:250px"
-         data-ad-client="ca-pub-8415646781751848"
-         data-ad-slot="9792772848"></ins>
-  </div>
 
   <section class="section">
     <h3 style="text-align:center">Simple 3-Step Process</h3>
@@ -329,6 +320,31 @@
 
   /* REQUIRED: one push per ad */
   (adsbygoogle = window.adsbygoogle || []).push({});
+  (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+  <script>
+  const adContainer = document.getElementById("ad-container");
+  const isMobile = window.innerWidth <= 600;
+
+  if (isMobile) {
+    // 📱 MOBILE 300x250
+    adContainer.innerHTML = `
+      <ins class="adsbygoogle"
+           style="display:inline-block;width:300px;height:250px"
+           data-ad-client="ca-pub-8415646781751848"
+           data-ad-slot="9792772848"></ins>
+    `;
+  } else {
+    // 🖥 DESKTOP 728x90
+    adContainer.innerHTML = `
+      <ins class="adsbygoogle"
+           style="display:inline-block;width:728px;height:90px"
+           data-ad-client="ca-pub-8415646781751848"
+           data-ad-slot="7010928349"></ins>
+    `;
+  }
+
   (adsbygoogle = window.adsbygoogle || []).push({});
 </script>
 

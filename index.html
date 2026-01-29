@@ -242,6 +242,31 @@
 </footer>
 
 <script>
+ // ---- Helper functions (define FIRST) ----
+  function renderResult(url) {
+    resultContainer.innerHTML = `
+      <div class="result-card">
+        <a href="${url}" target="_blank"
+           style="text-decoration:none;color:#007bff;font-weight:bold;">
+           ${url}
+        </a>
+        <button class="copy-btn" onclick="copyToClipboard('${url}')">Copy</button>
+      </div>
+    `;
+  }
+
+  function copyToClipboard(text) {
+    navigator.clipboard.writeText(text).then(() => {
+      const btn = document.querySelector('.copy-btn');
+      btn.innerText = "Copied!";
+      btn.style.background = "#28a745";
+      setTimeout(() => {
+        btn.innerText = "Copy";
+        btn.style.background = "#007bff";
+      }, 2000);
+    });
+  }
+  
   const API_ENDPOINT = 'https://script.google.com/macros/s/AKfycbym_S-jxobmksB0I1E9coIpxiQr9JgckTlGQCrq_Vsfk0K-iozhCvM1o92X2uzI2qJZ/exec';
 
   shortenBtn.addEventListener('click', async () => {

@@ -1,268 +1,235 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Helink – URL Shortener</title>
-  <meta name="description" content="Helink is a fast and simple URL shortener to create short links instantly." />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Helink – URL Shortener</title>
+  <meta name="description" content="Helink is a fast and simple URL shortener to create short links instantly." />
 
-  <script async
-    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8415646781751848"
-    crossorigin="anonymous"></script>
+  <!-- AdSense -->
+  <script async
+    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8415646781751848"
+    crossorigin="anonymous"></script>
 
-  <style>
-    :root {
-      --primary: #007bff;
-      --dark: #222;
-      --light: #fafafa;
-      --border: #eee;
-    }
+  <style>
+    :root {
+      --primary: #007bff;
+      --dark: #222;
+      --light: #fafafa;
+      --border: #eee;
+    }
 
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #ffffff;
-      color: var(--dark);
-    }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #ffffff;
+      color: var(--dark);
+    }
 
-    .container {
-      max-width: 900px;
-      margin: auto;
-      padding: 20px;
-    }
+    .container {
+      max-width: 900px;
+      margin: auto;
+      padding: 20px;
+    }
 
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      border-bottom: 1px solid var(--border);
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(5px);
-    }
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      border-bottom: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(5px);
+    }
 
-    .header-inner {
-      max-width: 900px;
-      margin: auto;
-      padding: 12px 20px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
+    .header-inner {
+      max-width: 900px;
+      margin: auto;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
 
-    .header-inner img { height: 35px; }
-    .header-inner h1 { margin: 0; font-size: 1.2rem; }
+    .header-inner img { height: 35px; }
+    .header-inner h1 { margin: 0; font-size: 1.2rem; }
 
-    .hero {
-      text-align: center;
-      padding: 60px 20px;
-    }
+    .hero {
+      text-align: center;
+      padding: 60px 20px;
+    }
 
-    .shortener-box {
-      display: flex;
-      max-width: 600px;
-      margin: 0 auto;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      overflow: hidden;
-    }
+    .shortener-box {
+      display: flex;
+      max-width: 600px;
+      margin: 0 auto;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
 
-    .shortener-box input {
-      flex: 1;
-      padding: 15px;
-      border: none;
-      font-size: 16px;
-      outline: none;
-    }
+    .shortener-box input {
+      flex: 1;
+      padding: 15px;
+      border: none;
+      font-size: 16px;
+    }
 
-    .shortener-box button {
-      padding: 0 25px;
-      background: var(--dark);
-      color: #fff;
-      border: none;
-      cursor: pointer;
-      font-weight: 600;
-      transition: background 0.3s;
-    }
+    .shortener-box button {
+      padding: 0 25px;
+      background: var(--dark);
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+    }
 
-    .shortener-box button:hover {
-        background: #444;
-    }
+    .result-container {
+      margin-top: 25px;
+      min-height: 50px;
+    }
 
-    .shortener-box button:disabled {
-        background: #ccc;
-        cursor: not-allowed;
-    }
+    .result-card {
+      background: var(--light);
+      padding: 15px;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      gap: 15px;
+      border: 1px solid var(--border);
+    }
 
-    .result-container {
-      margin-top: 25px;
-      min-height: 50px;
-    }
+    .copy-btn {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      padding: 6px 14px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 12px;
+    }
 
-    .result-card {
-      background: var(--light);
-      padding: 15px;
-      border-radius: 6px;
-      display: inline-flex;
-      align-items: center;
-      gap: 15px;
-      border: 1px solid var(--border);
-    }
+    .ad-wrapper {
+      display: flex;
+      justify-content: center;
+      margin: 30px 0;
+    }
 
-    .copy-btn {
-      background: var(--primary);
-      color: #fff;
-      border: none;
-      padding: 6px 14px;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 12px;
-      transition: background 0.2s;
-    }
+    footer {
+      text-align: center;
+      font-size: 13px;
+      color: #888;
+      padding: 30px 0;
+    }
 
-    .ad-wrapper {
-      display: flex;
-      justify-content: center;
-      margin: 30px 0;
-    }
-
-    footer {
-      text-align: center;
-      font-size: 13px;
-      color: #888;
-      padding: 30px 0;
-    }
-
-    @media (max-width: 600px) {
-      .shortener-box {
-        flex-direction: column;
-      }
-      .shortener-box button {
-        padding: 15px;
-      }
-    }
-  </style>
+    @media (max-width: 600px) {
+      .shortener-box {
+        flex-direction: column;
+      }
+      .shortener-box button {
+        padding: 15px;
+      }
+    }
+  </style>
 </head>
+
 <body>
 
 <header>
-  <div class="header-inner">
-    <img src="https://static.wixstatic.com/media/35c132_a5155fcd98804a63b86551e131f2302a~mv2.png" alt="Helink Logo">
-    <h1>Helink</h1>
-  </div>
+  <div class="header-inner">
+    <img src="https://static.wixstatic.com/media/35c132_a5155fcd98804a63b86551e131f2302a~mv2.png" alt="Helink Logo">
+    <h1>Helink</h1>
+  </div>
 </header>
 
 <main class="container">
-  <section class="hero">
-    <h2>Make your links shorter.</h2>
-    <p>The fast, secure, and free URL shortener by Helixcer.</p>
+  <section class="hero">
+    <h2>Make your links shorter.</h2>
+    <p>The fast, secure, and free URL shortener by Helixcer.</p>
 
-    <div class="shortener-box">
-      <input type="url" id="urlInput" placeholder="https://example.com/very-long-link" />
-      <button id="shortenBtn">Shorten</button>
-    </div>
+    <div class="shortener-box">
+      <input type="url" id="urlInput" placeholder="https://example.com/very-long-link" />
+      <button id="shortenBtn">Shorten</button>
+    </div>
 
-    <div class="result-container" id="resultContainer"></div>
-  </section>
+    <div class="result-container" id="resultContainer"></div>
+  </section>
 
-  <div class="ad-wrapper">
-    <ins class="adsbygoogle"
-      style="display:inline-block;width:728px;height:90px"
-      data-ad-client="ca-pub-8415646781751848"
-      data-ad-slot="7010928349"></ins>
-  </div>
+  <div class="ad-wrapper">
+    <ins class="adsbygoogle"
+      style="display:inline-block;width:728px;height:90px"
+      data-ad-client="ca-pub-8415646781751848"
+      data-ad-slot="7010928349"></ins>
+  </div>
 </main>
 
 <footer>
-  © 2026 Helink – Helixcer Enterprises
+  © 2026 Helink – Helixcer Enterprises
 </footer>
 
 <script>
-  const API_ENDPOINT = 'https://script.google.com/macros/s/AKfycbym_S-jxobmksB0I1E9coIpxiQr9JgckTlGQCrq_Vsfk0K-iozhCvM1o92X2uzI2qJZ/exec';
+  const API_ENDPOINT =
+    'https://script.google.com/macros/s/AKfycbym_S-jxobmksB0I1E9coIpxiQr9JgckTlGQCrq_Vsfk0K-iozhCvM1o92X2uzI2qJZ/exec';
 
-  const shortenBtn = document.getElementById('shortenBtn');
-  const urlInput = document.getElementById('urlInput');
-  const resultContainer = document.getElementById('resultContainer');
+  const shortenBtn = document.getElementById('shortenBtn');
+  const urlInput = document.getElementById('urlInput');
+  const resultContainer = document.getElementById('resultContainer');
 
-  // Unified Copy Function with Fallback
-  function copyToClipboard(text) {
-    const btn = document.getElementById('copyBtn');
-    
-    function updateBtn() {
-      btn.textContent = 'Copied!';
-      btn.style.background = '#28a745';
-      setTimeout(() => {
-        btn.textContent = 'Copy';
-        btn.style.background = '#007bff';
-      }, 2000);
-    }
+  // Render result + bind copy button
+  function renderResult(url) {
+    resultContainer.innerHTML = `
+      <div class="result-card">
+        <a href="${url}" target="_blank"
+           style="color:#007bff;font-weight:bold;text-decoration:none;">
+          ${url}
+        </a>
+        <button class="copy-btn" id="copyBtn">Copy</button>
+      </div>
+    `;
 
-    // Modern API
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(text).then(updateBtn).catch(() => fallbackCopy(text));
-    } else {
-      fallbackCopy(text);
-    }
+    document.getElementById('copyBtn').addEventListener('click', () => {
+      navigator.clipboard.writeText(url).then(() => {
+        const btn = document.getElementById('copyBtn');
+        btn.textContent = 'Copied!';
+        btn.style.background = '#28a745';
+        setTimeout(() => {
+          btn.textContent = 'Copy';
+          btn.style.background = '#007bff';
+        }, 2000);
+      });
+    });
+  }
 
-    function fallbackCopy(textToCopy) {
-      const textArea = document.createElement("textarea");
-      textArea.value = textToCopy;
-      textArea.style.position = "fixed";
-      textArea.style.left = "-9999px";
-      document.body.appendChild(textArea);
-      textArea.select();
-      try {
-        document.execCommand('copy');
-        updateBtn();
-      } catch (err) {
-        alert('Could not copy automatically. Link: ' + textToCopy);
-      }
-      document.body.removeChild(textArea);
-    }
-  }
+  shortenBtn.addEventListener('click', async () => {
+    const originalUrl = urlInput.value.trim();
+    if (!originalUrl) return alert('Please enter a URL');
 
-  function renderResult(url) {
-    resultContainer.innerHTML = `
-      <div class="result-card">
-        <a href="${url}" target="_blank" style="color:#007bff;font-weight:bold;text-decoration:none;">
-          ${url}
-        </a>
-        <button class="copy-btn" id="copyBtn">Copy</button>
-      </div>
-    `;
+    shortenBtn.disabled = true;
+    shortenBtn.textContent = 'Processing…';
+    resultContainer.innerHTML = '<p>Creating your link…</p>';
 
-    document.getElementById('copyBtn').addEventListener('click', () => copyToClipboard(url));
-  }
+    try {
+      const res = await fetch(API_ENDPOINT, {
+        method: 'POST',
+        body: JSON.stringify({ url: originalUrl })
+      });
 
-  shortenBtn.addEventListener('click', async () => {
-    const originalUrl = urlInput.value.trim();
-    if (!originalUrl) return alert('Please enter a URL');
+      const data = await res.json();
+      if (!data.shortUrl) throw new Error(data.error || 'Failed');
 
-    shortenBtn.disabled = true;
-    shortenBtn.textContent = 'Processing…';
-    resultContainer.innerHTML = '<p>Creating your link…</p>';
+      renderResult(data.shortUrl);
+      urlInput.value = '';
 
-    try {
-      const res = await fetch(API_ENDPOINT, {
-        method: 'POST',
-        body: JSON.stringify({ url: originalUrl })
-      });
+    } catch (e) {
+      resultContainer.innerHTML =
+        `<p style="color:red;">${e.message}</p>`;
+    } finally {
+      shortenBtn.disabled = false;
+      shortenBtn.textContent = 'Shorten';
+    }
+  });
 
-      const data = await res.json();
-      if (!data.shortUrl) throw new Error(data.error || 'Failed to shorten link');
-
-      renderResult(data.shortUrl);
-      urlInput.value = '';
-
-    } catch (e) {
-      resultContainer.innerHTML = `<p style="color:red;">Error: ${e.message}</p>`;
-    } finally {
-      shortenBtn.disabled = false;
-      shortenBtn.textContent = 'Shorten';
-    }
-  });
-
-  // Load AdSense
-  try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch(e) {}
+  // Load AdSense
+  (window.adsbygoogle = window.adsbygoogle || []).push({});
 </script>
 
 </body>

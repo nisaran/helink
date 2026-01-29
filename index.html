@@ -6,7 +6,6 @@
   <title>Helink – URL Shortener</title>
   <meta name="description" content="Helink is a fast and simple URL shortener to create short links instantly." />
 
-  <!-- AdSense -->
   <script async
     src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8415646781751848"
     crossorigin="anonymous"></script>
@@ -72,6 +71,7 @@
       padding: 15px;
       border: none;
       font-size: 16px;
+      outline: none;
     }
 
     .shortener-box button {
@@ -81,6 +81,16 @@
       border: none;
       cursor: pointer;
       font-weight: 600;
+      transition: background 0.3s;
+    }
+
+    .shortener-box button:hover {
+        background: #444;
+    }
+
+    .shortener-box button:disabled {
+        background: #ccc;
+        cursor: not-allowed;
     }
 
     .result-container {
@@ -106,6 +116,7 @@
       border-radius: 4px;
       cursor: pointer;
       font-size: 12px;
+      transition: background 0.2s;
     }
 
     .ad-wrapper {
@@ -131,7 +142,6 @@
     }
   </style>
 </head>
-
 <body>
 
 <header>
@@ -167,36 +177,60 @@
 </footer>
 
 <script>
-  const API_ENDPOINT =
-    'https://script.google.com/macros/s/AKfycbym_S-jxobmksB0I1E9coIpxiQr9JgckTlGQCrq_Vsfk0K-iozhCvM1o92X2uzI2qJZ/exec';
+  const API_ENDPOINT = 'https://script.google.com/macros/s/AKfycbym_S-jxobmksB0I1E9coIpxiQr9JgckTlGQCrq_Vsfk0K-iozhCvM1o92X2uzI2qJZ/exec';
 
   const shortenBtn = document.getElementById('shortenBtn');
   const urlInput = document.getElementById('urlInput');
   const resultContainer = document.getElementById('resultContainer');
 
-  // Render result + bind copy button
+  // Unified Copy Function with Fallback
+  function copyToClipboard(text) {
+    const btn = document.getElementById('copyBtn');
+    
+    function updateBtn() {
+      btn.textContent = 'Copied!';
+      btn.style.background = '#28a745';
+      setTimeout(() => {
+        btn.textContent = 'Copy';
+        btn.style.background = '#007bff';
+      }, 2000);
+    }
+
+    // Modern API
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(updateBtn).catch(() => fallbackCopy(text));
+    } else {
+      fallbackCopy(text);
+    }
+
+    function fallbackCopy(textToCopy) {
+      const textArea = document.createElement("textarea");
+      textArea.value = textToCopy;
+      textArea.style.position = "fixed";
+      textArea.style.left = "-9999px";
+      document.body.appendChild(textArea);
+      textArea.select();
+      try {
+        document.execCommand('copy');
+        updateBtn();
+      } catch (err) {
+        alert('Could not copy automatically. Link: ' + textToCopy);
+      }
+      document.body.removeChild(textArea);
+    }
+  }
+
   function renderResult(url) {
     resultContainer.innerHTML = `
       <div class="result-card">
-        <a href="${url}" target="_blank"
-           style="color:#007bff;font-weight:bold;text-decoration:none;">
+        <a href="${url}" target="_blank" style="color:#007bff;font-weight:bold;text-decoration:none;">
           ${url}
         </a>
         <button class="copy-btn" id="copyBtn">Copy</button>
       </div>
     `;
 
-    document.getElementById('copyBtn').addEventListener('click', () => {
-      navigator.clipboard.writeText(url).then(() => {
-        const btn = document.getElementById('copyBtn');
-        btn.textContent = 'Copied!';
-        btn.style.background = '#28a745';
-        setTimeout(() => {
-          btn.textContent = 'Copy';
-          btn.style.background = '#007bff';
-        }, 2000);
-      });
-    });
+    document.getElementById('copyBtn').addEventListener('click', () => copyToClipboard(url));
   }
 
   shortenBtn.addEventListener('click', async () => {
@@ -214,14 +248,13 @@
       });
 
       const data = await res.json();
-      if (!data.shortUrl) throw new Error(data.error || 'Failed');
+      if (!data.shortUrl) throw new Error(data.error || 'Failed to shorten link');
 
       renderResult(data.shortUrl);
       urlInput.value = '';
 
     } catch (e) {
-      resultContainer.innerHTML =
-        `<p style="color:red;">${e.message}</p>`;
+      resultContainer.innerHTML = `<p style="color:red;">Error: ${e.message}</p>`;
     } finally {
       shortenBtn.disabled = false;
       shortenBtn.textContent = 'Shorten';
@@ -229,7 +262,7 @@
   });
 
   // Load AdSense
-  (window.adsbygoogle = window.adsbygoogle || []).push({});
+  try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch(e) {}
 </script>
 
 </body>

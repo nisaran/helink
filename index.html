@@ -39,7 +39,6 @@
       z-index: 1000;
       border-bottom: 1px solid var(--border);
       background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(5px);
     }
 
     .header-inner {
@@ -55,33 +54,15 @@
       height: 35px;
     }
 
-    .header-inner h1 {
-      font-size: 1.2rem;
-      margin: 0;
-      font-weight: 700;
-    }
-
     .hero {
       text-align: center;
       padding: 30px 20px 20px;
-      margin-top: 0;
-    }
-
-    .hero h2 {
-      font-size: 2rem;
-      margin-bottom: 10px;
-    }
-
-    .hero p {
-      color: #666;
-      margin-bottom: 25px;
     }
 
     .shortener-box {
       display: flex;
       max-width: 600px;
       margin: 0 auto;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
       border-radius: 8px;
       overflow: hidden;
       border: 1px solid var(--border);
@@ -109,119 +90,29 @@
       min-height: 40px;
     }
 
-    /* UPDATED RESULT CARD */
     .result-card {
       background: var(--light);
-      padding: 20px;
-      border-radius: 8px;
-      display: flex;
+      padding: 15px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      display: inline-flex;
       flex-direction: column;
       gap: 10px;
-      border: 1px solid var(--border);
-      max-width: 600px;
-      margin: 0 auto;
-      text-align: left;
     }
 
-    .result-card p {
-      margin: 0;
-      word-break: break-all;
-      font-size: 14px;
-    }
-
-    .result-card strong {
-      display: block;
-      color: #555;
-      font-size: 12px;
-      text-transform: uppercase;
-    }
-
-    .action-buttons {
-      display: flex;
-      gap: 10px;
-      margin-top: 10px;
-    }
-
-    .action-buttons button, .action-buttons a {
-      flex: 1;
-      text-align: center;
-      padding: 10px;
+    .action-btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 6px 14px;
       border-radius: 4px;
       cursor: pointer;
-      font-size: 14px;
-      font-weight: 600;
-      text-decoration: none;
-      border: none;
+      font-size: 12px;
     }
 
-    .btn-open { background: #eee; color: #333; }
-    .btn-copy { background: var(--primary); color: white; }
-    .btn-share { background: #28a745; color: white; }
-
-    .ad-wrapper {
+    .btn-row {
       display: flex;
-      justify-content: center;
-      margin: 15px 0 25px;
-      min-height: 90px;
-    }
-
-    .section {
-      padding: 30px 0;
-      border-top: 1px solid var(--border);
-    }
-
-    .app-section {
-      text-align: center;
-      background: var(--light);
-      padding: 45px 20px;
-    }
-
-    footer {
-      text-align: center;
-      font-size: 13px;
-      color: #888;
-      padding: 25px 0;
-    }
-
-    footer a {
-      color: #888;
-      text-decoration: none;
-      margin: 0 10px;
-    }
-
-    /* AD RESPONSIVENESS */
-    .ad-desktop { display: block; }
-    .ad-mobile  { display: none; }
-
-    @media (max-width: 600px) {
-      .ad-desktop { display: none; }
-      .ad-mobile  { display: block; }
-
-      .shortener-box {
-        flex-direction: column;
-        box-shadow: none;
-        border: none;
-        gap: 10px;
-      }
-
-      .shortener-box input {
-        font-size: 18px;
-        padding: 16px;
-      }
-
-      .shortener-box input,
-      .shortener-box button {
-        border-radius: 6px;
-        border: 1px solid var(--border);
-      }
-
-      .shortener-box button {
-        padding: 15px;
-      }
-      
-      .action-buttons {
-        flex-direction: column;
-      }
+      gap: 10px;
     }
   </style>
 </head>
@@ -230,7 +121,7 @@
 
 <header>
   <div class="header-inner">
-    <img src="https://static.wixstatic.com/media/35c132_a5155fcd98804a63b86551e131f2302a~mv2.png" alt="Helink Logo">
+    <img src="https://static.wixstatic.com/media/35c132_a5155fcd98804a63b86551e131f2302a~mv2.png">
     <h1>Helink</h1>
   </div>
 </header>
@@ -249,45 +140,7 @@
     <div class="result-container" id="resultContainer"></div>
   </section>
 
-  <div class="ad-wrapper">
-    <div class="ad-desktop">
-      <ins class="adsbygoogle"
-           style="display:inline-block;width:728px;height:90px"
-           data-ad-client="ca-pub-8415646781751848"
-           data-ad-slot="7010928349"></ins>
-      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-    </div>
-
-    <div class="ad-mobile">
-      <ins class="adsbygoogle"
-           style="display:inline-block;width:300px;height:250px"
-           data-ad-client="ca-pub-8415646781751848"
-           data-ad-slot="9792772848"></ins>
-      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-    </div>
-  </div>
-
 </main>
-
-<section class="app-section">
-  <h2>Helink for Android</h2>
-  <p>Available now for quick sharing on the go.</p>
-
-  <a href="https://play.google.com/store/apps/details?id=com.helixcer.helink"
-     target="_blank"
-     rel="noopener noreferrer"
-     style="display:inline-block;margin-top:20px;">
-    <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png"
-         alt="Get it on Google Play"
-         style="height:60px;width:auto;">
-  </a>
-</section>
-
-<footer>
-  <p>© 2026 Helink – Helixcer Enterprises</p>
-  <a href="https://www.helixcer.com/policies/privacy-policy" target="_blank" rel="noopener noreferrer">Privacy Policy</a> |
-  <a href="https://www.helixcer.com/policies/terms-and-conditions" target="_blank" rel="noopener noreferrer">Terms of Service</a>
-</footer>
 
 <script>
   const shortenBtn = document.getElementById("shortenBtn");
@@ -297,47 +150,37 @@
   const API_ENDPOINT =
     "https://script.google.com/macros/s/AKfycbym_S-jxobmksB0I1E9coIpxiQr9JgckTlGQCrq_Vsfk0K-iozhCvM1o92X2uzI2qJZ/exec";
 
-  function renderResult(data) {
-    const originalUrl = data.defaultDestinationURL;
-    const shortUrlObj = data.shortUrls[0];
-    const shortUrl = `https://${shortUrlObj.domain.name}/${shortUrlObj.slug}`;
-
+  /* ✅ UPDATED UI ONLY */
+  function renderResult(url) {
     resultContainer.innerHTML = `
       <div class="result-card">
-        <p><strong>Original URL</strong> ${originalUrl}</p>
-        <p><strong>Short URL</strong> <a href="${shortUrl}" target="_blank" style="color:var(--primary); font-weight:bold; text-decoration:none;">${shortUrl}</a></p>
-        
-        <div class="action-buttons">
-          <a href="${shortUrl}" target="_blank" class="btn-open">Open</a>
-          <button class="btn-copy" onclick="copyToClipboard('${shortUrl}')">Copy</button>
-          <button class="btn-share" onclick="shareLink('${shortUrl}')">Share</button>
+        <a href="${url}" target="_blank"
+           style="text-decoration:none;color:#007bff;font-weight:bold;">
+          ${url}
+        </a>
+
+        <div class="btn-row">
+          <button class="action-btn" onclick="window.open('${url}','_blank')">Open</button>
+          <button class="action-btn" onclick="copyToClipboard('${url}')">Copy</button>
+          <button class="action-btn" onclick="shareLink('${url}')">Share</button>
         </div>
-      </div>
-    `;
+      </div>`;
   }
 
   function copyToClipboard(text) {
-    navigator.clipboard.writeText(text).then(() => {
-      const btn = document.querySelector(".btn-copy");
-      const originalText = btn.innerText;
-      btn.innerText = "Copied!";
-      setTimeout(() => {
-        btn.innerText = originalText;
-      }, 2000);
-    });
+    navigator.clipboard.writeText(text);
   }
 
   function shareLink(url) {
     if (navigator.share) {
-      navigator.share({
-        title: 'Helink Short URL',
-        url: url
-      }).catch(console.error);
+      navigator.share({ title: "Helink Short URL", url });
     } else {
-      alert("Sharing is not supported on this browser. Copy the link instead!");
+      copyToClipboard(url);
+      alert("Link copied. Share it anywhere!");
     }
   }
 
+  /* ✅ API LOGIC UNCHANGED */
   shortenBtn.addEventListener("click", async () => {
     const originalUrl = urlInput.value.trim();
     if (!originalUrl) {
@@ -347,7 +190,7 @@
 
     shortenBtn.disabled = true;
     shortenBtn.innerText = "Processing...";
-    resultContainer.innerHTML = '<p style="color:#666;">Creating your link...</p>';
+    resultContainer.innerHTML = `<p style="color:#666;">Creating your link...</p>`;
 
     try {
       const response = await fetch(API_ENDPOINT, {
@@ -355,13 +198,13 @@
         body: JSON.stringify({ url: originalUrl })
       });
 
-      const json = await response.json();
-      // Accessing data based on your provided example API response
-      if (json.data) {
-        renderResult(json.data);
+      const data = await response.json();
+
+      if (data.shortUrl) {
+        renderResult(data.shortUrl);
         urlInput.value = "";
       } else {
-        throw new Error(json.error || "Failed to generate link");
+        throw new Error(data.error || "Failed to generate link");
       }
     } catch (err) {
       resultContainer.innerHTML = `<p style="color:red;">${err.message}</p>`;

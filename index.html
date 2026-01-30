@@ -64,6 +64,7 @@
     .hero {
       text-align: center;
       padding: 30px 20px 20px;
+      margin-top: 0;
     }
 
     .hero h2 {
@@ -108,33 +109,65 @@
       min-height: 40px;
     }
 
+    /* UPDATED RESULT CARD */
     .result-card {
       background: var(--light);
-      padding: 15px;
-      border-radius: 6px;
-      border: 1px solid var(--border);
-      display: inline-flex;
+      padding: 20px;
+      border-radius: 8px;
+      display: flex;
       flex-direction: column;
-      align-items: flex-start;
       gap: 10px;
-      max-width: 100%;
+      border: 1px solid var(--border);
+      max-width: 600px;
+      margin: 0 auto;
+      text-align: left;
     }
 
-    .action-btn {
-      background: var(--primary);
-      color: white;
-      border: none;
-      padding: 6px 14px;
+    .result-card p {
+      margin: 0;
+      word-break: break-all;
+      font-size: 14px;
+    }
+
+    .result-card strong {
+      display: block;
+      color: #555;
+      font-size: 12px;
+      text-transform: uppercase;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .action-buttons button, .action-buttons a {
+      flex: 1;
+      text-align: center;
+      padding: 10px;
       border-radius: 4px;
       cursor: pointer;
-      font-size: 13px;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      border: none;
     }
+
+    .btn-open { background: #eee; color: #333; }
+    .btn-copy { background: var(--primary); color: white; }
+    .btn-share { background: #28a745; color: white; }
 
     .ad-wrapper {
       display: flex;
       justify-content: center;
       margin: 15px 0 25px;
       min-height: 90px;
+    }
+
+    .section {
+      padding: 30px 0;
+      border-top: 1px solid var(--border);
     }
 
     .app-section {
@@ -156,6 +189,7 @@
       margin: 0 10px;
     }
 
+    /* AD RESPONSIVENESS */
     .ad-desktop { display: block; }
     .ad-mobile  { display: none; }
 
@@ -170,6 +204,11 @@
         gap: 10px;
       }
 
+      .shortener-box input {
+        font-size: 18px;
+        padding: 16px;
+      }
+
       .shortener-box input,
       .shortener-box button {
         border-radius: 6px;
@@ -178,6 +217,10 @@
 
       .shortener-box button {
         padding: 15px;
+      }
+      
+      .action-buttons {
+        flex-direction: column;
       }
     }
   </style>
@@ -231,17 +274,19 @@
   <p>Available now for quick sharing on the go.</p>
 
   <a href="https://play.google.com/store/apps/details?id=com.helixcer.helink"
-     target="_blank" rel="noopener noreferrer">
+     target="_blank"
+     rel="noopener noreferrer"
+     style="display:inline-block;margin-top:20px;">
     <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png"
          alt="Get it on Google Play"
-         style="height:60px;">
+         style="height:60px;width:auto;">
   </a>
 </section>
 
 <footer>
   <p>© 2026 Helink – Helixcer Enterprises</p>
-  <a href="https://www.helixcer.com/policies/privacy-policy" target="_blank">Privacy Policy</a> |
-  <a href="https://www.helixcer.com/policies/terms-and-conditions" target="_blank">Terms of Service</a>
+  <a href="https://www.helixcer.com/policies/privacy-policy" target="_blank" rel="noopener noreferrer">Privacy Policy</a> |
+  <a href="https://www.helixcer.com/policies/terms-and-conditions" target="_blank" rel="noopener noreferrer">Terms of Service</a>
 </footer>
 
 <script>
@@ -252,40 +297,44 @@
   const API_ENDPOINT =
     "https://script.google.com/macros/s/AKfycbym_S-jxobmksB0I1E9coIpxiQr9JgckTlGQCrq_Vsfk0K-iozhCvM1o92X2uzI2qJZ/exec";
 
-  function renderResult(originalUrl, shortUrl) {
+  function renderResult(data) {
+    const originalUrl = data.defaultDestinationURL;
+    const shortUrlObj = data.shortUrls[0];
+    const shortUrl = `https://${shortUrlObj.domain.name}/${shortUrlObj.slug}`;
+
     resultContainer.innerHTML = `
       <div class="result-card">
-        <div>
-          <strong>Original URL:</strong><br>
-          <span style="color:#555;word-break:break-all;">${originalUrl}</span>
+        <p><strong>Original URL</strong> ${originalUrl}</p>
+        <p><strong>Short URL</strong> <a href="${shortUrl}" target="_blank" style="color:var(--primary); font-weight:bold; text-decoration:none;">${shortUrl}</a></p>
+        
+        <div class="action-buttons">
+          <a href="${shortUrl}" target="_blank" class="btn-open">Open</a>
+          <button class="btn-copy" onclick="copyToClipboard('${shortUrl}')">Copy</button>
+          <button class="btn-share" onclick="shareLink('${shortUrl}')">Share</button>
         </div>
-
-        <div>
-          <strong>Short URL:</strong><br>
-          <a href="${shortUrl}" target="_blank"
-             style="color:#007bff;font-weight:bold;text-decoration:none;">
-            ${shortUrl}
-          </a>
-        </div>
-
-        <div style="display:flex;gap:10px;">
-          <button class="action-btn" onclick="window.open('${shortUrl}','_blank')">Open</button>
-          <button class="action-btn" onclick="copyToClipboard('${shortUrl}')">Copy</button>
-          <button class="action-btn" onclick="shareLink('${shortUrl}')">Share</button>
-        </div>
-      </div>`;
+      </div>
+    `;
   }
 
   function copyToClipboard(text) {
-    navigator.clipboard.writeText(text);
+    navigator.clipboard.writeText(text).then(() => {
+      const btn = document.querySelector(".btn-copy");
+      const originalText = btn.innerText;
+      btn.innerText = "Copied!";
+      setTimeout(() => {
+        btn.innerText = originalText;
+      }, 2000);
+    });
   }
 
   function shareLink(url) {
     if (navigator.share) {
-      navigator.share({ title: "Helink Short URL", url });
+      navigator.share({
+        title: 'Helink Short URL',
+        url: url
+      }).catch(console.error);
     } else {
-      copyToClipboard(url);
-      alert("Link copied. Share it anywhere!");
+      alert("Sharing is not supported on this browser. Copy the link instead!");
     }
   }
 
@@ -298,31 +347,24 @@
 
     shortenBtn.disabled = true;
     shortenBtn.innerText = "Processing...";
-    resultContainer.innerHTML = `<p style="color:#666;">Creating your link...</p>`;
+    resultContainer.innerHTML = '<p style="color:#666;">Creating your link...</p>';
 
     try {
       const response = await fetch(API_ENDPOINT, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
         body: JSON.stringify({ url: originalUrl })
       });
 
-      const data = await response.json();
-
-      if (!data || !data.data || !data.data.shortUrls || !data.data.shortUrls.length) {
-        throw new Error("Invalid API response");
+      const json = await response.json();
+      // Accessing data based on your provided example API response
+      if (json.data) {
+        renderResult(json.data);
+        urlInput.value = "";
+      } else {
+        throw new Error(json.error || "Failed to generate link");
       }
-
-      const originalFromApi = data.data.defaultDestinationURL;
-      const shortObj = data.data.shortUrls[0];
-      const shortUrl = `https://${shortObj.domain.name}/${shortObj.slug}`;
-
-      renderResult(originalFromApi, shortUrl);
-      urlInput.value = "";
     } catch (err) {
-      resultContainer.innerHTML = `<p style="color:red;">Failed to generate link</p>`;
+      resultContainer.innerHTML = `<p style="color:red;">${err.message}</p>`;
     } finally {
       shortenBtn.disabled = false;
       shortenBtn.innerText = "Shorten";

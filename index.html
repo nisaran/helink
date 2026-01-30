@@ -121,15 +121,16 @@
     }
 
     .copy-btn {
-      background: var(--primary);
-      color: white;
-      border: none;
-      padding: 5px 12px;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 12px;
-    }
-
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 10px 18px;        /* increased */
+  border-radius: 6px;       /* slightly rounder */
+  cursor: pointer;
+  font-size: 14px;          /* bigger text */
+  font-weight: 600;
+  min-width: 80px;          /* uniform size */
+}
     .ad-wrapper {
       display: flex;
       justify-content: center;
@@ -160,26 +161,34 @@
     .ad-mobile  { display: none; }
 
     @media (max-width: 600px) {
-      .ad-desktop { display: none; }
-      .ad-mobile  { display: block; }
+  .ad-desktop { display: none; }
+  .ad-mobile  { display: block; }
 
-      .shortener-box {
-        flex-direction: column;
-        box-shadow: none;
-        border: none;
-        gap: 10px;
-      }
+  .shortener-box {
+    flex-direction: column;
+    box-shadow: none;
+    border: none;
+    gap: 10px;
+  }
 
-      .shortener-box input,
-      .shortener-box button {
-        border-radius: 6px;
-        border: 1px solid var(--border);
-      }
+  .shortener-box input,
+  .shortener-box button {
+    border-radius: 6px;
+    border: 1px solid var(--border);
+  }
 
-      .shortener-box button {
-        padding: 15px;
-      }
-    }
+  .shortener-box button {
+    padding: 15px;
+  }
+
+  /* ✅ INCREASE RESULT BUTTON SIZE (Open / Copy / Share) */
+  .copy-btn {
+    padding: 12px 20px;
+    font-size: 15px;
+    min-width: 90px;
+  }
+}
+
   </style>
 </head>
 
@@ -264,18 +273,28 @@
 
       <div style="margin-top:10px;display:flex;gap:10px;">
         <button class="copy-btn" onclick="window.open('${url}','_blank')">Open</button>
-        <button class="copy-btn" onclick="copyToClipboard('${url}')">Copy</button>
+        <button class="copy-btn" onclick="copyToClipboard(this, '${url}')">Copy</button>
         <button class="copy-btn" onclick="shareLink('${url}')">Share</button>
       </div>
 
     </div>`;
 }
 
-  function copyToClipboard(text) {
-    navigator.clipboard.writeText(text).then(() => {
-      alert("Copied to clipboard");
-    });
-  }
+ function copyToClipboard(btn, text) {
+  navigator.clipboard.writeText(text).then(() => {
+    const originalText = btn.innerText;
+
+    btn.innerText = "✅ Copied";
+    btn.disabled = true;
+
+    setTimeout(() => {
+      btn.innerText = originalText;
+      btn.disabled = false;
+    }, 2000);
+  });
+}
+
+
 
   function shareLink(url) {
     if (navigator.share) {

@@ -120,7 +120,7 @@
       max-width: 100%;
     }
 
-    .copy-btn {
+    .action-btn {
       background: var(--primary);
       color: white;
       border: none;
@@ -269,9 +269,9 @@
         </div>
 
         <div style="display:flex;gap:10px;">
-          <button class="copy-btn" onclick="window.open('${shortUrl}','_blank')">Open</button>
-          <button class="copy-btn" onclick="copyToClipboard('${shortUrl}')">Copy</button>
-          <button class="copy-btn" onclick="shareLink('${shortUrl}')">Share</button>
+          <button class="action-btn" onclick="window.open('${shortUrl}','_blank')">Open</button>
+          <button class="action-btn" onclick="copyToClipboard('${shortUrl}')">Copy</button>
+          <button class="action-btn" onclick="shareLink('${shortUrl}')">Share</button>
         </div>
       </div>`;
   }
@@ -303,10 +303,17 @@
     try {
       const response = await fetch(API_ENDPOINT, {
         method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
         body: JSON.stringify({ url: originalUrl })
       });
 
       const data = await response.json();
+
+      if (!data || !data.data || !data.data.shortUrls || !data.data.shortUrls.length) {
+        throw new Error("Invalid API response");
+      }
 
       const originalFromApi = data.data.defaultDestinationURL;
       const shortObj = data.data.shortUrls[0];

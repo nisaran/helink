@@ -253,19 +253,23 @@
     "https://script.google.com/macros/s/AKfycbym_S-jxobmksB0I1E9coIpxiQr9JgckTlGQCrq_Vsfk0K-iozhCvM1o92X2uzI2qJZ/exec";
 
   /* ✅ ONLY UI CHANGE HERE */
-  function renderResult(url) {
-    resultContainer.innerHTML = `
-      <div class="result-card">
-        <a href="${url}" target="_blank"
-           style="text-decoration:none;color:#007bff;font-weight:bold;">
-          ${url}
-        </a>
+ function renderResult(url) {
+  resultContainer.innerHTML = `
+    <div class="result-card" style="flex-direction:column;align-items:flex-start;">
+      
+      <a href="${url}" target="_blank"
+         style="text-decoration:none;color:#007bff;font-weight:bold;">
+        ${url}
+      </a>
 
+      <div style="margin-top:10px;display:flex;gap:10px;">
         <button class="copy-btn" onclick="window.open('${url}','_blank')">Open</button>
         <button class="copy-btn" onclick="copyToClipboard('${url}')">Copy</button>
         <button class="copy-btn" onclick="shareLink('${url}')">Share</button>
-      </div>`;
-  }
+      </div>
+
+    </div>`;
+}
 
   function copyToClipboard(text) {
     navigator.clipboard.writeText(text).then(() => {

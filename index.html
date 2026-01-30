@@ -39,6 +39,7 @@
       z-index: 1000;
       border-bottom: 1px solid var(--border);
       background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(5px);
     }
 
     .header-inner {
@@ -54,15 +55,33 @@
       height: 35px;
     }
 
+    .header-inner h1 {
+      font-size: 1.2rem;
+      margin: 0;
+      font-weight: 700;
+    }
+
     .hero {
       text-align: center;
       padding: 30px 20px 20px;
+      margin-top: 0;
+    }
+
+    .hero h2 {
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+
+    .hero p {
+      color: #666;
+      margin-bottom: 25px;
     }
 
     .shortener-box {
       display: flex;
       max-width: 600px;
       margin: 0 auto;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
       border-radius: 8px;
       overflow: hidden;
       border: 1px solid var(--border);
@@ -94,25 +113,72 @@
       background: var(--light);
       padding: 15px;
       border-radius: 6px;
-      border: 1px solid var(--border);
       display: inline-flex;
-      flex-direction: column;
+      align-items: center;
       gap: 10px;
+      border: 1px solid var(--border);
+      flex-wrap: wrap;
     }
 
-    .action-btn {
+    .copy-btn {
       background: var(--primary);
       color: white;
       border: none;
-      padding: 6px 14px;
+      padding: 5px 12px;
       border-radius: 4px;
       cursor: pointer;
       font-size: 12px;
     }
 
-    .btn-row {
+    .ad-wrapper {
       display: flex;
-      gap: 10px;
+      justify-content: center;
+      margin: 15px 0 25px;
+      min-height: 90px;
+    }
+
+    .app-section {
+      text-align: center;
+      background: var(--light);
+      padding: 45px 20px;
+    }
+
+    footer {
+      text-align: center;
+      font-size: 13px;
+      color: #888;
+      padding: 25px 0;
+    }
+
+    footer a {
+      color: #888;
+      text-decoration: none;
+      margin: 0 10px;
+    }
+
+    .ad-desktop { display: block; }
+    .ad-mobile  { display: none; }
+
+    @media (max-width: 600px) {
+      .ad-desktop { display: none; }
+      .ad-mobile  { display: block; }
+
+      .shortener-box {
+        flex-direction: column;
+        box-shadow: none;
+        border: none;
+        gap: 10px;
+      }
+
+      .shortener-box input,
+      .shortener-box button {
+        border-radius: 6px;
+        border: 1px solid var(--border);
+      }
+
+      .shortener-box button {
+        padding: 15px;
+      }
     }
   </style>
 </head>
@@ -121,7 +187,7 @@
 
 <header>
   <div class="header-inner">
-    <img src="https://static.wixstatic.com/media/35c132_a5155fcd98804a63b86551e131f2302a~mv2.png">
+    <img src="https://static.wixstatic.com/media/35c132_a5155fcd98804a63b86551e131f2302a~mv2.png" alt="Helink Logo">
     <h1>Helink</h1>
   </div>
 </header>
@@ -140,7 +206,43 @@
     <div class="result-container" id="resultContainer"></div>
   </section>
 
+  <div class="ad-wrapper">
+    <div class="ad-desktop">
+      <ins class="adsbygoogle"
+           style="display:inline-block;width:728px;height:90px"
+           data-ad-client="ca-pub-8415646781751848"
+           data-ad-slot="7010928349"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+
+    <div class="ad-mobile">
+      <ins class="adsbygoogle"
+           style="display:inline-block;width:300px;height:250px"
+           data-ad-client="ca-pub-8415646781751848"
+           data-ad-slot="9792772848"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+  </div>
+
 </main>
+
+<section class="app-section">
+  <h2>Helink for Android</h2>
+  <p>Available now for quick sharing on the go.</p>
+
+  <a href="https://play.google.com/store/apps/details?id=com.helixcer.helink"
+     target="_blank" rel="noopener noreferrer">
+    <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png"
+         alt="Get it on Google Play"
+         style="height:60px;">
+  </a>
+</section>
+
+<footer>
+  <p>© 2026 Helink – Helixcer Enterprises</p>
+  <a href="https://www.helixcer.com/policies/privacy-policy" target="_blank">Privacy Policy</a> |
+  <a href="https://www.helixcer.com/policies/terms-and-conditions" target="_blank">Terms of Service</a>
+</footer>
 
 <script>
   const shortenBtn = document.getElementById("shortenBtn");
@@ -150,7 +252,7 @@
   const API_ENDPOINT =
     "https://script.google.com/macros/s/AKfycbym_S-jxobmksB0I1E9coIpxiQr9JgckTlGQCrq_Vsfk0K-iozhCvM1o92X2uzI2qJZ/exec";
 
-  /* ✅ UPDATED UI ONLY */
+  /* ✅ ONLY UI CHANGE HERE */
   function renderResult(url) {
     resultContainer.innerHTML = `
       <div class="result-card">
@@ -159,16 +261,16 @@
           ${url}
         </a>
 
-        <div class="btn-row">
-          <button class="action-btn" onclick="window.open('${url}','_blank')">Open</button>
-          <button class="action-btn" onclick="copyToClipboard('${url}')">Copy</button>
-          <button class="action-btn" onclick="shareLink('${url}')">Share</button>
-        </div>
+        <button class="copy-btn" onclick="window.open('${url}','_blank')">Open</button>
+        <button class="copy-btn" onclick="copyToClipboard('${url}')">Copy</button>
+        <button class="copy-btn" onclick="shareLink('${url}')">Share</button>
       </div>`;
   }
 
   function copyToClipboard(text) {
-    navigator.clipboard.writeText(text);
+    navigator.clipboard.writeText(text).then(() => {
+      alert("Copied to clipboard");
+    });
   }
 
   function shareLink(url) {
@@ -176,7 +278,6 @@
       navigator.share({ title: "Helink Short URL", url });
     } else {
       copyToClipboard(url);
-      alert("Link copied. Share it anywhere!");
     }
   }
 
@@ -199,7 +300,6 @@
       });
 
       const data = await response.json();
-
       if (data.shortUrl) {
         renderResult(data.shortUrl);
         urlInput.value = "";
